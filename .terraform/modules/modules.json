@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"vpc","Source":"terraform-aws-modules/vpc/aws","Version":"3.6.0","Dir":".terraform/modules/vpc"},{"Key":"","Source":"","Dir":"."},{"Key":"asg","Source":"terraform-aws-modules/autoscaling/aws","Version":"4.4.0","Dir":".terraform/modules/asg"}]}
