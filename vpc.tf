@@ -4,6 +4,8 @@ module "vpc" {
     name = "${var.Name}-VPC"
     cidr = var.CIDR
 
+    enable_dns_hostnames = true
+
     azs = slice(formatlist("%s%s",local.region,var.AZ_mapping),0,var.number_of_AZ)
 
     public_subnets = slice(var.public_subnets_cidr,0,var.number_of_AZ)

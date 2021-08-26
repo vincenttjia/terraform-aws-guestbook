@@ -2,6 +2,10 @@ variable "Name" {
     type = string
 }
 
+variable "key_pair_name" {
+    type = string
+}
+
 variable "Region" {
     type = string
 }
