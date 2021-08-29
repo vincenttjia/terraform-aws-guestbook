@@ -140,15 +140,15 @@ module "RedisSG" {
 module "DBSG" {
     source = "terraform-aws-modules/security-group/aws"
 
-    name        = "RedisSG"
-    description = "Allow Redis traffic From WebSG"
+    name        = "DBSG"
+    description = "Allow DB traffic From WebSG"
     vpc_id      = module.vpc.vpc_id
 
 
     computed_ingress_with_source_security_group_id = [
     {
-        from_port = 6379
-        to_port = 6379
+        from_port = 3306
+        to_port = 3306
         protocol = "tcp"
         source_security_group_id = module.WebSG.security_group_id
     }

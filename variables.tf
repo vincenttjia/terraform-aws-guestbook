@@ -40,3 +40,17 @@ variable "number_of_AZ" {
         error_message = "The Number of AZ must be between 1 and 6."
     }
 }
+
+variable "image_id" {
+    type = string  
+}
+
+variable "instance_type" {
+    type = string
+    default = "t2.micro"
+}
+
+variable "GuestbookEC2RoleName" {
+    type = string
+    default = "arn:aws:iam::057766946565:role/EC2GuestbookRole"
+}
