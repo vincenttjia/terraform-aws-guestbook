@@ -34,13 +34,13 @@ data "template_file" "Guestbook-EC2" {
       "DBName" = var.DBName,
       "MyDBUsername" = var.MyDBUsername,
       "MyDBPassword" = var.MyDBPassword,
-      "AwsCognitoKey" = var.AwsCognitoKey,
-      "AwsCognitoSecret" = var.AwsCognitoSecret,
-      "AwsCognitoRegion" = var.AwsCognitoRegion,
-      "AwsCognitoClientId" = var.AwsCognitoClientId,
-      "AwsCognitoClientSecret" = var.AwsCognitoClientSecret,
-      "AwsCognitoUserPoolId" = var.AwsCognitoUserPoolId,
-      "AwsCognitoDeleteUser" = var.AwsCognitoDeleteUser,
+      "AwsCognitoKey" = "",
+      "AwsCognitoSecret" = "",
+      "AwsCognitoRegion" = split("_",aws_cognito_user_pool_client.Guestbook_client.user_pool_id)[0],
+      "AwsCognitoClientId" = aws_cognito_user_pool_client.Guestbook_client.id,
+      "AwsCognitoClientSecret" = aws_cognito_user_pool_client.Guestbook_client.client_secret,
+      "AwsCognitoUserPoolId" = aws_cognito_user_pool_client.Guestbook_client.user_pool_id,
+      "AwsCognitoDeleteUser" = "",
       "RedisHost" = module.Redis_Instance.private_dns
     }
 }

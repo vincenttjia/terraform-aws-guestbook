@@ -70,31 +70,3 @@ variable "MyDBPassword" {
 variable "DBName" {
     type = string
 }
-
-variable "AwsCognitoKey" {
-    type = string
-}
-
-variable "AwsCognitoSecret" {
-    type = string
-}
-
-variable "AwsCognitoRegion" {
-    type = string
-}
-
-variable "AwsCognitoClientId" {
-    type = string
-}
-
-variable "AwsCognitoClientSecret" {
-    type = string
-}
-
-variable "AwsCognitoUserPoolId" {
-    type = string
-}
-
-variable "AwsCognitoDeleteUser" {
-    type = string
-}

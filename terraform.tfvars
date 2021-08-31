@@ -1,4 +1,4 @@
-# VPCtf 
+# VPC
 Name    = "Guestbook"
 Region  = "us-east-1"
 
@@ -20,11 +20,3 @@ env_path = "/var/www/guestbook/.env"
 MyDBUsername = "admin"
 MyDBPassword = "CHANGEME"
 DBName = "guestbook"
-
-AwsCognitoKey = ""
-AwsCognitoSecret = ""
-AwsCognitoRegion = "us-east-1"
-AwsCognitoClientId = "2psfjnipk48fj6k068i7arlkth"
-AwsCognitoClientSecret = "ui9703hm0hnm2lgqnmodc1dnf7m7n53v3jgf5ai3pr8mncvm4jf"
-AwsCognitoUserPoolId = "us-east-1_vhd2DWiEA"
-AwsCognitoDeleteUser = ""
