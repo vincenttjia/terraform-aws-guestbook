@@ -54,3 +54,47 @@ variable "GuestbookEC2RoleName" {
     type = string
     default = "arn:aws:iam::057766946565:role/EC2GuestbookRole"
 }
+
+variable "env_path" {
+    type = string
+}
+
+variable "MyDBUsername" {
+    type = string
+}
+
+variable "MyDBPassword" {
+    type = string
+}
+
+variable "DBName" {
+    type = string
+}
+
+variable "AwsCognitoKey" {
+    type = string
+}
+
+variable "AwsCognitoSecret" {
+    type = string
+}
+
+variable "AwsCognitoRegion" {
+    type = string
+}
+
+variable "AwsCognitoClientId" {
+    type = string
+}
+
+variable "AwsCognitoClientSecret" {
+    type = string
+}
+
+variable "AwsCognitoUserPoolId" {
+    type = string
+}
+
+variable "AwsCognitoDeleteUser" {
+    type = string
+}

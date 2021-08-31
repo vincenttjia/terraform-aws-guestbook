@@ -25,12 +25,45 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
+data "template_file" "Guestbook-EC2" {
+    template = "${file("${path.module}/scripts/guestbook-EC2.sh")}"
+
+    vars = {
+      "env_path" = var.env_path,
+      "DbHost" = module.DB_instance.private_dns,
+      "DBName" = var.DBName,
+      "MyDBUsername" = var.MyDBUsername,
+      "MyDBPassword" = var.MyDBPassword,
+      "AwsCognitoKey" = var.AwsCognitoKey,
+      "AwsCognitoSecret" = var.AwsCognitoSecret,
+      "AwsCognitoRegion" = var.AwsCognitoRegion,
+      "AwsCognitoClientId" = var.AwsCognitoClientId,
+      "AwsCognitoClientSecret" = var.AwsCognitoClientSecret,
+      "AwsCognitoUserPoolId" = var.AwsCognitoUserPoolId,
+      "AwsCognitoDeleteUser" = var.AwsCognitoDeleteUser,
+      "RedisHost" = module.Redis_Instance.private_dns
+    }
+}
+
+resource "aws_iam_instance_profile" "Guestbook_profile" {
+  name = "Guestbook_Profile"
+  role = var.GuestbookEC2RoleName
+}
+
 resource "aws_launch_configuration" "guestbook_launch_config" {
-  name          = "Guestbook_Launch_Config"
+  name_prefix = "Guestbook_Launch_Config"
   image_id      = var.image_id
   instance_type = var.instance_type
   key_name = var.key_pair_name
   security_groups = [module.WebSG.security_group_id]
+  iam_instance_profile = aws_iam_instance_profile.Guestbook_profile.name
+
+  user_data = data.template_file.Guestbook-EC2.rendered
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 
@@ -47,4 +80,14 @@ resource "aws_autoscaling_group" "Guestbook_ASG" {
 
   target_group_arns = [aws_lb_target_group.Guestbook_Target_Group.arn]
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
 }
