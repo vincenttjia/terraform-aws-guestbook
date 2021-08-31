@@ -66,13 +66,27 @@ resource "aws_launch_configuration" "guestbook_launch_config" {
 
 }
 
+resource "aws_autoscaling_policy" "Guestbook_ASG_policy" {
+  name                   = "Guestbook_ASG_Policy"
+  policy_type            = "TargetTrackingScaling"
+  autoscaling_group_name = aws_autoscaling_group.Guestbook_ASG.name
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+
+    target_value = 80.0
+  }
+}
+
 
 resource "aws_autoscaling_group" "Guestbook_ASG" {
   name                 = "Guestbook_ASG"
   launch_configuration = aws_launch_configuration.guestbook_launch_config.name
   min_size             = 1
   max_size             = 2
-  desired_capacity      = 1
+  health_check_type    = "ELB"
 
   vpc_zone_identifier = module.vpc.private_subnets
 
