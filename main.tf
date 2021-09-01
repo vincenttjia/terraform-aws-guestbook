@@ -14,7 +14,7 @@ locals {
 # Configure the AWS Provider
 provider "aws" {
   region = local.region
-  shared_credentials_file = "C:\\Users\\vincent\\.aws\\credentials"
+  shared_credentials_file = "%userprofile%\\.aws\\credentials"
   profile = "default"
 }
 
