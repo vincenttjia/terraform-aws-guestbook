@@ -63,7 +63,7 @@ resource "aws_launch_configuration" "guestbook_launch_config" {
   lifecycle {
     create_before_destroy = true
   }
-
+  
 }
 
 resource "aws_autoscaling_policy" "Guestbook_ASG_policy" {
@@ -103,5 +103,11 @@ resource "aws_autoscaling_group" "Guestbook_ASG" {
     preferences {
       min_healthy_percentage = 50
     }
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "Guestbook-Instance"
+    propagate_at_launch = true
   }
 }
