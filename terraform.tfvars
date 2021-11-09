@@ -18,5 +18,5 @@ GuestbookEC2RoleName = "EC2GuestbookRole"
 env_path = "/var/www/guestbook/.env"
 
 MyDBUsername = "admin"
-MyDBPassword = "CHANGEME1"
+MyDBPassword = "CHANGEME"
 DBName = "guestbook"
