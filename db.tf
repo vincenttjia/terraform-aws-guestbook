@@ -1,38 +1,36 @@
-# IAM DENIED AWS STARTER ACCOUNT
+resource "aws_db_instance" "Guestbook_RDS" {
+  allocated_storage    = 10
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t2.small"
+  name                 = "GuestbookRDS"
+  username             = var.MyDBUsername
+  password             = var.MyDBPassword
+  parameter_group_name = "default.mysql5.7"
+  skip_final_snapshot  = true
+  db_subnet_group_name = module.vpc.database_subnet_group_name
+}
 
-# resource "aws_db_instance" "default" {
-#   allocated_storage    = 10
-#   engine               = "mysql"
-#   engine_version       = "5.7"
-#   instance_class       = "db.t2.micro"
-#   name                 = "Guestbook-RDS"
-#   username             = var.MyDBUsername
-#   password             = var.MyDBPassword
-#   parameter_group_name = "default.mysql5.7"
-#   skip_final_snapshot  = true
-#   db_subnet_group_name = module.vpc.database_subnet_group_name
+# data "template_file" "mysql" {
+#     template = "${file("${path.module}/scripts/mysql.sh")}"
+
+#     vars = {
+#       "DBName" = var.DBName,
+#       "MyDBUsername" = var.MyDBUsername,
+#       "MyDBPassword" = var.MyDBPassword
+#     }
 # }
 
-data "template_file" "mysql" {
-    template = "${file("${path.module}/scripts/mysql.sh")}"
+# module "DB_instance" {
+#     source  = "terraform-aws-modules/ec2-instance/aws"
+#     name = "Guestbook-DB"
 
-    vars = {
-      "DBName" = var.DBName,
-      "MyDBUsername" = var.MyDBUsername,
-      "MyDBPassword" = var.MyDBPassword
-    }
-}
+#     ami = data.aws_ami.ubuntu.id
+#     instance_type = "t2.micro"
 
-module "DB_instance" {
-    source  = "terraform-aws-modules/ec2-instance/aws"
-    name = "Guestbook-DB"
+#     subnet_id = module.vpc.private_subnets[0]
+#     vpc_security_group_ids = [ module.DBSG.security_group_id ]
 
-    ami = data.aws_ami.ubuntu.id
-    instance_type = "t2.micro"
-
-    subnet_id = module.vpc.public_subnets[0]
-    vpc_security_group_ids = [ module.DBSG.security_group_id ]
-
-    key_name = var.key_pair_name
-    user_data = data.template_file.mysql.rendered
-}
+#     key_name = var.key_pair_name
+#     user_data = data.template_file.mysql.rendered
+# }

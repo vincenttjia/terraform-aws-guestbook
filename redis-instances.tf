@@ -19,15 +19,18 @@ data "template_file" "redis" {
 }
 
 module "Redis_Instance" {
+    depends_on = [module.vpc]
+
     source  = "terraform-aws-modules/ec2-instance/aws"
     name = "Guestbook-Redis"
 
     ami = data.aws_ami.ubuntu.id
     instance_type = "t2.micro"
 
-    subnet_id = module.vpc.public_subnets[0]
+    subnet_id = module.vpc.private_subnets[0]
     vpc_security_group_ids = [ module.RedisSG.security_group_id ]
 
     key_name = var.key_pair_name
     user_data = data.template_file.redis.rendered
 }
+

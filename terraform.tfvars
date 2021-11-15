@@ -11,7 +11,7 @@ db_subnets_cidr         = ["10.0.20.0/24","10.0.21.0/24","10.0.22.0/24","10.0.23
 # Guestbook EC2
 key_pair_name = "Global 1"
 
-image_id = "ami-035f992d12130aafb"
+image_id = "ami-02fba6be2582eaf75"
 instance_type = "t2.micro"
 GuestbookEC2RoleName = "EC2GuestbookRole"
 

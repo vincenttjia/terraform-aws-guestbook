@@ -12,6 +12,17 @@ resource "aws_lb_target_group" "Guestbook_Target_Group" {
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
   target_type = "instance"
+
+  health_check {
+    path                = "/"
+    interval            = 30
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    matcher             = "200-299"
+  }
 }
 
 resource "aws_lb_listener" "front_end" {
@@ -30,7 +41,7 @@ data "template_file" "Guestbook-EC2" {
 
     vars = {
       "env_path" = var.env_path,
-      "DbHost" = module.DB_instance.private_dns,
+      "DbHost" = aws_db_instance.Guestbook_RDS.address,
       "DBName" = var.DBName,
       "MyDBUsername" = var.MyDBUsername,
       "MyDBPassword" = var.MyDBPassword,
@@ -80,11 +91,19 @@ resource "aws_autoscaling_policy" "Guestbook_ASG_policy" {
   }
 }
 
+resource "time_sleep" "asg_sleep" {
+  depends_on = [module.vpc,module.Redis_Instance]
+
+  create_duration = "15s"
+}
 
 resource "aws_autoscaling_group" "Guestbook_ASG" {
+  depends_on = [time_sleep.asg_sleep]
+
   name                 = "Guestbook_ASG"
   launch_configuration = aws_launch_configuration.guestbook_launch_config.name
   min_size             = 1
+  desired_capacity     = 1
   max_size             = 2
   health_check_type    = "ELB"
 
